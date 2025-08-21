@@ -1,18 +1,21 @@
 import streamlit as st
 import yt_dlp
+import os
+import imageio_ffmpeg as ffmpeg
 from pathlib import Path
+
+# Configurar ffmpeg no PATH
+os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg.get_ffmpeg_exe())
 
 st.title("📥 Downloader de Vídeos do YouTube")
 
 url = st.text_input("Cole o link do vídeo do YouTube aqui:")
 
-# Pasta para salvar
 destino = Path("downloads")
 destino.mkdir(exist_ok=True)
 
 if url:
     try:
-        # Mostrar opções
         opcao = st.radio(
             "Escolha o que deseja baixar:",
             ("Vídeo (qualidade máxima)", "Áudio (MP3)")
@@ -23,8 +26,9 @@ if url:
                 ydl_opts = {
                     "outtmpl": str(destino / "%(title)s.%(ext)s"),
                     "format": "bestvideo+bestaudio/best",
+                    "merge_output_format": "mp4"
                 }
-            else:  # Áudio
+            else:
                 ydl_opts = {
                     "outtmpl": str(destino / "%(title)s.%(ext)s"),
                     "format": "bestaudio/best",
@@ -44,6 +48,7 @@ if url:
                     st.success(f"✅ Áudio salvo em: {arquivo}")
                     st.audio(arquivo)
                 else:
+                    arquivo = arquivo.rsplit(".", 1)[0] + ".mp4"
                     st.success(f"✅ Vídeo salvo em: {arquivo}")
                     st.video(arquivo)
 
