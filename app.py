@@ -1,7 +1,7 @@
 import streamlit as st
 import yt_dlp
 import os
-import ffmpeg
+import ffmpeg as ffmpeg
 from pathlib import Path
 
 # Configurar ffmpeg no PATH
