@@ -1,11 +1,13 @@
 import streamlit as st
 import yt_dlp
+import imageio_ffmpeg as imageio_ffmpeg
 import os
-import imageio_ffmpeg as ffmpeg
 from pathlib import Path
 
 # Configurar ffmpeg no PATH
-os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg.get_ffmpeg_exe())
+# Garante que o ffmpeg seja adicionado ao PATH
+ffmpeg_path = imageio_ffmpeg.get_ffmpeg_exe()
+os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg_path)
 
 st.title("📥 Downloader de Vídeos do YouTube")
 
