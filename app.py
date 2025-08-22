@@ -5,7 +5,6 @@ import os
 from pathlib import Path
 
 # Configurar ffmpeg no PATH
-# Garante que o ffmpeg seja adicionado ao PATH
 ffmpeg_path = imageio_ffmpeg.get_ffmpeg_exe()
 os.environ["PATH"] += os.pathsep + os.path.dirname(ffmpeg_path)
 
@@ -33,14 +32,12 @@ if url:
             else:
                 ydl_opts = {
                     "outtmpl": str(destino / "%(title)s.%(ext)s"),
-                    "format": "bestaudio/best",
-                    "postprocessors": [{
-                        "key": "FFmpegExtractAudio",
-                        "preferredcodec": "mp3",
-                        "preferredquality": "192",
-                    }],
-                }
-
+                    "format": "bestvideo+bestaudio/best",
+                    "merge_output_format": "mp4",
+                    "headers": {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+                    }
+                }   
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
                 arquivo = ydl.prepare_filename(info)
