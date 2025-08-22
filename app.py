@@ -2,7 +2,6 @@ import streamlit as st
 import yt_dlp
 import imageio_ffmpeg as imageio_ffmpeg
 import os
-from pathlib import Path
 
 # Configurar ffmpeg no PATH
 ffmpeg_path = imageio_ffmpeg.get_ffmpeg_exe()
